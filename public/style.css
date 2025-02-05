@@ -1,0 +1,74 @@
+:root {
+  /* All colors on the page will use these variables */
+  --colorOne: #D3D3D3;
+  --colorTwo: #A9A9A9;
+  --colorThree: #E0E0E0;
+  
+  --bg_color: white;
+  --font-size: 16px; /* Base font size */
+  --quote-font-size: 18px; /* Quote specific font size */
+}
+
+html {
+  font-size: var(--font-size); /* Global font size for the entire page */
+}
+
+body {
+  background: var(--bg_color);
+  margin: 0;
+  font-family: sans-serif;
+  line-height: 1.5;
+  height: 100vh;
+
+  padding: 1px;
+  overflow: hidden;
+
+}
+
+header {
+  box-sizing: border-box;
+  padding: 1px;
+  background: var(--colorOne);
+  border-bottom: 1px solid #333333;
+  text-align: center;
+  width: 100%;
+}
+
+/* User's Space Styling */
+#userInputText {
+  cursor: pointer;
+  font-size: 2rem; /* Larger font for user's name */
+  font-weight: bold;
+}
+
+#quoteText {
+  font-size: var(--quote-font-size); /* Use a separate font size for the quote */
+  font-style: italic;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+section { 
+  box-sizing: border-box;
+  border: 1px solid #696969;
+  width: 50%; 
+  height: 12.5%; 
+  align-self: center;
+  margin: 36px;
+  background-color: var(--colorThree);
+  justify-content: center; 
+  position: relative;
+  right: 0;
+  cursor: pointer;
+}
+
+section:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.quicknotesheading {
+  text-align: center;
+  
+}
+
+

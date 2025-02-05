@@ -3,6 +3,7 @@
   --colorOne: #D3D3D3;
   --colorTwo: #A9A9A9;
   --colorThree: #E0E0E0;
+  --colorFour: #333333;
   
   --bg_color: white;
   --font-size: 16px; /* Base font size */
@@ -19,17 +20,15 @@ body {
   font-family: sans-serif;
   line-height: 1.5;
   height: 100vh;
-
   padding: 1px;
   overflow: hidden;
-
 }
 
 header {
   box-sizing: border-box;
   padding: 1px;
   background: var(--colorOne);
-  border-bottom: 1px solid #333333;
+  border-bottom: 1px solid var(--colorFour);
   text-align: center;
   width: 100%;
 }

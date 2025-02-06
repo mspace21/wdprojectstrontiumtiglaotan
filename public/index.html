@@ -9,22 +9,35 @@
     <script src="/script.js" defer></script>
   </head>
   <body>
-    
-    <nav>
-      
+    <div class="menuButton" onclick="toggleSidebar()">
+      <div class="menu"></div>
+      <div class="menu"></div>
+      <div class="menu"></div>
+    </div>
+    <nav id="sideBar">
+      <div class="navBarLinks">
+        <div class="navBarActiveLink">Home</div>
+        <div><a  href="/fitness.html">Fitness</a></div>
+        <div><a  href="/work.html">Work</a></div>
+      </div>
     </nav>
-    <div class="homePageContainer">
+
+    <div id="homePageContainer">
       <header>
         <h1 id="topHeader">
-        <span id="userInputText">User</span>'s Space
+        <span onclick="changeName()">
+          <span id="userText">User</span>'s Space
+        </span>
         <div id="quoteText">"Don't judge each day by the harvest you reap but by the seeds you plant"</div>
         </h1>
       </header>
-
-      <section id="section1">
-        <p id="journalText" class="quicknotesheading">Quick Notes</p>
-      <div class="content"></div>
-      </section>
+      
+      <div class="quick-notes">
+        <h2>Quick Notes</h2>
+        <button class="addNoteBtn" onclick="addNote()">+ Add a Note</button>
+        <div id="notesContainer"></div>
+      </div>
+    </div>
     </div>
   </body>
 </html>

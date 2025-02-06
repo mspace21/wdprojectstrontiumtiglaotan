@@ -1,21 +1,30 @@
-const quicknotes = document.getElementById("section1");
-let isDragging = false;
-let offsetX, offsetY;
+const userText = document.getElementById("userText");
+const sideBar = document.getElementById("sideBar");
+const homePageContainer = document.getElementById("homePageContainer");
 
-quicknotes.addEventListener("mousedown", (event) => {
-  isDragging = true;
-  
-  offsetX = event.clientX - quicknotes.getBoundingClientRect().left;
-  offsetY = event.clientY - quicknotes.getBoundingClientRect().top;
-});
+let userName ='';
+function changeName() {
+  userName = prompt("What should we call you?");
+  userText.innerHTML = userName;
+}
 
-document.addEventListener("mouseup", () => {
-  isDragging = false;
-});
+function addNote() {
+  const notesContainer = document.getElementById("notesContainer");
+  const note = document.createElement("div");
+  note.className = "note";
+  note.innerHTML = '<textarea placeholder="Empty Note"></textarea>';
+  notesContainer.appendChild(note);
+}
 
-document.addEventListener("mousemove", (event) => {
-  if (isDragging) {
-    quicknotes.style.left = event.clientX - offsetX + "px";
-    quicknotes.style.top = event.clientY - offsetY + "px"; 
-  }
-});
+let sideBarOpen = false;
+function toggleSidebar() {
+  if(sideBarOpen === false) {
+    sideBar.style.display = "inline";
+    sideBarOpen = true;
+    homePageContainer.style.width = "87.5%"
+  } else if(sideBarOpen === true) {
+    sideBar.style.display = "none";
+    sideBarOpen = false;
+    homePageContainer.style.width = "100%"
+  } 
+}

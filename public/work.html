@@ -3,26 +3,36 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="https://glitch.com/favicon.ico" />
-    <title>Work</title>
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="icon" href="/assets/icon/favicon.ico" />
+    <title>Merge: Where work meets fitness - Fitness</title>
+    <link rel="stylesheet" href="style.css" />
     <script src="/script.js" defer></script>
   </head>
   <body>
-    <header>
-      <h1 id="topHeader">Work Section</h1>
-    </header>
+    <div class="menuButton" onclick="toggleSidebar()">
+      <div class="menu"></div>
+      <div class="menu"></div>
+      <div class="menu"></div>
+    </div>
+    <nav id="sideBar">
+      <div class="navBarLinks">
+        <div><a  href="index.html">Home</a></div>
+        <div><a  href="/fitness.html">Fitness</a></div>
+        <div class="navBarActiveLink">Work</div>
+      </div>
+    </nav>
 
-    <!-- Work Section -->
-    <section id="section3">
-      <p id="workText">Work</p>
-      <div class="content" contenteditable="true">Content for Work. You can edit this part.</div>
-    </section>
-    <div class="navbar">
-      <a href="index.html" class="active">Home</a>
-      <a href="journal.html">Journal</a>
-      <a href="work.html">Work</a>
-      <a href="fitness.html">Fitness</a>
+    <div id="homePageContainer">
+      <header>
+        <h1 id="topHeader">Work</h1>
+      </header>
+      
+      <div class="quick-notes">
+        <h2>Quick Notes</h2>
+        <button class="addNoteBtn" onclick="addNote()">+ Add a Note</button>
+        <div id="notesContainer"></div>
+      </div>
+    </div>
     </div>
   </body>
 </html>

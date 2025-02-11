@@ -4,23 +4,40 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="https://glitch.com/favicon.ico" />
-    <title>Journal</title>
-    <link rel="stylesheet" href="/style.css" />
-    <script src="/script2.js" defer></script>
+    <title>Merge: Where work meets fitness - Fitness</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="/script.js" defer></script>
   </head>
   <body>
-    <header>
-      <h1 id="topHeader">Journal Section</h1>
-    </header>
+    <div class="menuButton" onclick="toggleSidebar()">
+      <div class="menu"></div>
+      <div class="menu"></div>
+      <div class="menu"></div>
+    </div>
+    <nav id="sideBar">
+      <div class="navBarLinks">
+        <div><a  href="index.html">Home</a></div>
+        <div  class="navBarActiveLink">Fitness</div>
+        <div><a  href="/work.html">Work</a></div>
+      </div>
+    </nav>
 
-
-    <!-- Add New Page Button -->
-    <button onclick="addNewPage()">Add New Page</button>
-    <div class="navbar">
-      <a href="index.html" class="active">Home</a>
-      <a href="journal.html">Journal</a>
-      <a href="work.html">Work</a>
-      <a href="fitness.html">Fitness</a>
+    <div id="homePageContainer">
+      <header>
+        <h1 id="topHeader">
+        <span onclick="changeName()">
+          <span id="userText">User</span>'s Space
+        </span>
+        <div id="quoteText">"Don't judge each day by the harvest you reap but by the seeds you plant"</div>
+        </h1>
+      </header>
+      
+      <div class="quick-notes">
+        <h2>Quick Notes</h2>
+        <button class="addNoteBtn" onclick="addNote()">+ Add a Note</button>
+        <div id="notesContainer"></div>
+      </div>
+    </div>
     </div>
   </body>
 </html>

@@ -27,12 +27,18 @@
         <h1 id="topHeader">Fitness</h1>
       </header>
       
-      <div class="quick-notes">
-        <h2>Quick Notes</h2>
-        <button class="addNoteBtn" onclick="addNote()">+ Add a Note</button>
-        <div id="notesContainer"></div>
+      <div class="calorie-tracker">
+        <h2 class="calorie-tracker-heading">Calorie Calculator</h2>
+        <div class="qmark"><a class="help" href="https://reference.medscape.com/calculator/846/mifflin-st-jeor-equation">?</a></div>
       </div>
-    </div>
+      <div class="workout-dashboard">
+        <h2>Workout Dashboard</h2>
+        <div id="wktdashboardPlan" class="workout-dashboard1">
+          <label for="exerciseSelect">Add an Exercise:</label>
+          <select id="exerciseSelect"></select>
+          <button onclick="addExercise()">+</button>
+        </div>
+      </div>
     </div>
   </body>
 </html>

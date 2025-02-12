@@ -30,6 +30,8 @@ body {
   height: 100%;
   position: absolute;
   right: 0;
+
+  justify-content: space-between;
 }
 
 header {
@@ -135,4 +137,74 @@ header {
 
 .navBarActiveLink {
   background-color: var(--colorTwo);
+}
+
+.calorie-tracker {
+  width: 20%;
+  height: 50%;
+
+  display: inline-block;
+
+  text-align: center;
+
+  margin: 20px;
+  padding: 10px;
+  background: var(--colorThree);
+  border: 1px solid var(--colorFour);
+  border-radius: 5px;
+  position: absolute;
+}
+
+.calorie-tracker-heading {
+
+}
+
+.qmark {
+  color: black;
+
+  width: 5px;
+  height: 5px;
+  padding: 5px;
+
+  position: absolute;
+
+  right: 5px;
+  top: 5px;
+}
+
+.help {
+  color: black;
+  text-decoration: none;
+}
+
+.help:visited {
+  color: black;
+  text-decoration: none;
+}
+
+.workout-dashboard {
+  width: 70%;
+  height: auto;
+
+  display: inline-block;
+
+  text-align: center;
+
+  margin: 20px;
+  padding: 10px;
+  background: var(--colorThree);
+  border: 1px solid var(--colorFour);
+  border-radius: 5px;
+  position: absolute;
+  right: 0; 
+}
+
+.exercise {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.set {
+  margin: 5px 0;
 }

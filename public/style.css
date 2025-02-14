@@ -204,7 +204,14 @@ header {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  position: relative;
 }
 .set {
   margin: 5px 0;
+}
+
+.removeExercise {
+  position: absolute;
+  top: 0;
+  right: 2px;
 }

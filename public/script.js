@@ -31,6 +31,24 @@ function toggleSidebar() {
   } 
 }
 
+function calculateBMR() {
+  const W = document.getElementById("weight").value;
+  const H = document.getElementById("height").value;
+  const A = document.getElementById("age").value;
+  const gender = document.getElementById("gender").value;
+
+  const calculated = document.getElementById("calculatedBMR");
+
+  let BMR;
+  if(gender=="male") {
+    BMR = (13.397*W) + (4.799*H) - (5.677*A) + 88.362;
+  } else {
+    BMR = (9.247*W) + (3.098*H) - (4.330*A) + 447.593;
+  }
+  console.log(`Calculated BMR is ${BMR}`);
+  calculated.innerHTML = `Basal Metabolic Rate (BMR): <strong>${Math.round(BMR)}</strong> Calories/day`;
+}
+
 const exercises = [
   { name: "Push-up", target: "Chest, Triceps", bodyweight: true }, 
   { name: "Pull-up", target: "Back", bodyweight: true }, 
@@ -40,10 +58,10 @@ const exercises = [
   { name: "Dumbbell Bicep Curl", target: "Biceps", bodyweight: false },
   { name: "Dumbbell Hammer Curl", target: "Biceps", bodyweight: false },
   { name: "Dumbbell Concentration Curl", target: "Biceps", bodyweight: false },
-  { name: "Sit-up", target: "Biceps", bodyweight: true },
-  { name: "Bicep Curl", target: "Biceps", bodyweight: false },
-  { name: "Bicep Curl", target: "Biceps", bodyweight: false },
-  { name: "Bicep Curl", target: "Biceps", bodyweight: false },
+  { name: "Sit-up", target: "Abdominals", bodyweight: true },
+  { name: "Weighted Squat", target: "Quadriceps, Glutes", bodyweight: false },
+  { name: "Bodyweight Squat", target: "Quadriceps, Glutes", bodyweight: true },
+  { name: "Russian Twists", target: "Abs, Obliques", bodyweight: true },
 ]
 
 const exerciseSelect = document.getElementById("exerciseSelect");
@@ -64,7 +82,8 @@ function addExercise() {
   exerciseDiv.className = "exercise";
   exerciseDiv.innerHTML = `<strong>${selectedExercise.name}</strong>
                           <button onclick="addSet(this, ${selectedExercise.bodyweight})">Add Set</button>
-                          <div class="sets"></div>`;
+                          <div class="sets"></div>
+                          <div class="removeExercise" onclick="removeSet(this)">x</div>`;
   workoutPlan.appendChild(exerciseDiv);
 }
 

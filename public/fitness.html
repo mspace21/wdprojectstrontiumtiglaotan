@@ -30,6 +30,20 @@
       <div class="calorie-tracker">
         <h2 class="calorie-tracker-heading">Calorie Calculator</h2>
         <div class="qmark"><a class="help" href="https://reference.medscape.com/calculator/846/mifflin-st-jeor-equation">?</a></div>
+        <div><span>Age: </span><input id="age"></div>
+        <div><span>Height: </span><input id="height"></div>
+        <div><span>Weight: </span><input id="weight"></div>
+        
+        <div>
+          <label for="cars">Gender</label>
+          <select id="gender" name="gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+
+        <button class="calculateBtn" onclick="calculateBMR()">Calculate</button>
+        <div id="calculatedBMR"></div>
       </div>
       <div class="workout-dashboard">
         <h2>Workout Dashboard</h2>

@@ -36,6 +36,8 @@ function calculateBMR() {
   const H = document.getElementById("height").value;
   const A = document.getElementById("age").value;
   const gender = document.getElementById("gender").value;
+  const exerciseLv = document.getElementById("activity").value;
+  console.log(exerciseLv)
 
   const calculated = document.getElementById("calculatedBMR");
 
@@ -45,8 +47,28 @@ function calculateBMR() {
   } else {
     BMR = (9.247*W) + (3.098*H) - (4.330*A) + 447.593;
   }
+  switch(exerciseLv){
+    case "0":
+      BMR = BMR;
+      break;
+    case "1":
+      BMR = BMR*1.18;
+      break;
+    case "2":
+      BMR = BMR*1.32;
+      break;
+    case "3":
+      BMR = BMR*1.442;
+      break;
+    case "4":
+      BMR = BMR*1.5;
+      break;
+    case "5":
+      BMR = BMR*1.6965;
+      break;
+  }
   console.log(`Calculated BMR is ${BMR}`);
-  calculated.innerHTML = `Basal Metabolic Rate (BMR): <strong>${Math.round(BMR)}</strong> Calories/day`;
+  calculated.innerHTML = `Maintaining weight: <strong>${Math.round(BMR)}</strong> Calories/day`;
 }
 
 const exercises = [
@@ -100,4 +122,36 @@ function addSet(button, isBodyweight) {
 
 function removeSet(button) {
     button.parentElement.remove();
+}
+
+
+
+
+function addTask() {
+  const checklist = document.getElementById("checklist");
+
+  const taskDiv = document.createElement("div");
+  taskDiv.className = "task";
+
+  taskDiv.innerHTML = `
+      <input type="checkbox" onchange="toggleComplete(this)">
+      <input type="text" placeholder="To-do" oninput="editTask(this)">
+      <button onclick="removeTask(this)">X</button>
+  `;
+
+  checklist.appendChild(taskDiv);
+}
+
+function toggleComplete(checkbox) {
+  checkbox.parentElement.classList.toggle("completed", checkbox.checked);
+}
+
+function editTask(input) {
+  if (input.value.trim() === "") {
+      input.placeholder = "To-do";
+  }
+}
+
+function removeTask(button) {
+  button.parentElement.remove();
 }

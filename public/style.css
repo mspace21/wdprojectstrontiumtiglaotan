@@ -215,3 +215,61 @@ header {
   top: 0;
   right: 2px;
 }
+
+.todo {
+  width: 20%;
+  height: 50%;
+
+  display: inline-block;
+
+  margin: 20px;
+  
+  background: var(--bgColor);
+  border-radius: 2.5px;
+  position: absolute;
+
+  border: 1px solid var(--colorFour);
+}
+
+.todo-header {
+  background: var(--colorTwo);
+  border-radius: 2.5px;
+
+  padding: 0px 10px;
+  margin: 0px;
+}
+
+#checklist {
+  max-width: 400px;
+  margin: auto;
+  text-align: left;
+}
+.task {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+.task input[type="checkbox"] {
+  margin-right: 10px;
+  cursor: pointer;
+}
+.task input[type="text"] {
+  flex: 1;
+  border: none;
+  font-size: 16px;
+}
+.task.completed input[type="text"] {
+  text-decoration: line-through;
+  color: var(--colorTwo);
+}
+.task button {
+  margin-left: 5px;
+  cursor: pointer;
+  background: var(--bgColor);
+  color: var(--colorFour);
+  border: none;
+  padding: 5px;
+}
+.todoBtn {
+  margin: 10px;
+}

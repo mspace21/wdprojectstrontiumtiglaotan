@@ -1,5 +1,31 @@
-# Project Proposal
-### by Sr29 TIGLAO and Sr28 TAN
+# CS3 Website Project
+  ### by Sr29 TIGLAO and Sr28 TAN
+
+## Update Plan
+
+  For this update, we plan to integrate persistent data (using JSON) in our website. 
+
+  ### Specific JSON use plans
+  ```
+  Type of Data: User account login
+  Purpose:
+  JSON structure:
+    account {
+      username: string,
+      password: string,
+      pfp: image link
+    }
+  ```
+  ```
+  Type of Data: User account details
+  Purpose:
+  JSON structure:
+    account_details {
+      weight: number,
+      height: number,
+      
+    }
+  ```
 
 ## Website Details
   1. **Title:** **Merge** <br>

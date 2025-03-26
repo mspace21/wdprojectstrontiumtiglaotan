@@ -1,29 +1,39 @@
 # CS3 Website Project
-  ### by Sr29 TIGLAO and Sr28 TAN
+### by Sr29 TIGLAO and Sr28 TAN
 
 ## Update Plan
 
-  For this update, we plan to integrate persistent data (using JSON) in our website. 
+  For this update, we plan to integrate persistent data (using JSON) in our website. Specifically, we will use this to save and store user's data so that they don't have to enter it in every time they visit the website. Firstly, we will implement a system for users to sign up and log in to their accounts. Their account will contain all of their data, such as their notes, workout plans, etc.
 
-  ### Specific JSON use plans
+  We will add a webpage dedicated to user's account sign-up and login. This will also be the options/settings page where users can set their website theme, weight, height, or other account-specific content which will be saved to the appropriate JSON file. We will also update the Home, Fitness, and Work pages to make us of JSON files. For example, the calorie calculator in the Fitness page will read data from a repective JSON file containing a user's relevant information.
+
+  ### Specific JSON use plan
+  #### Below is an example of how we will implement JSON in our website:
   ```
-  Type of Data: User account login
+  Type of Data: User account login and account details
   Purpose:
   JSON structure:
     account {
       username: string,
       password: string,
-      pfp: image link
-    }
-  ```
-  ```
-  Type of Data: User account details
-  Purpose:
-  JSON structure:
-    account_details {
-      weight: number,
-      height: number,
-      
+      pfp: image link,
+      theme: [
+
+      ],
+      plans: [
+        {
+          planName: string
+          exercises: [
+            {name: string, sets: number, reps: number}
+          ]
+        }
+      ],
+      notes: [
+
+      ],
+      agenda: [
+
+      ],
     }
   ```
 

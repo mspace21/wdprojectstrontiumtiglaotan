@@ -36,7 +36,69 @@ const TaskManager = () => {
   const [totalTaskCounts, setTotalTaskCounts] = useState<{ High: number; Medium: number; Low: number }>({ High: 0, Medium: 0, Low: 0 });
   const [completionPercentages, setCompletionPercentages] = useState<{ High: string; Medium: string; Low: string }>({ High: '0%', Medium: '0%', Low: '0%' });
 
+  // Load tasks from localStorage
+  useEffect(() => {
+    const savedTasks = localStorage.getItem('tasks');
+    if (savedTasks) {
+      try {
+        const parsedTasks = JSON.parse(savedTasks);
+        // Validate data structure
+        if (Array.isArray(parsedTasks)) {
+          let valid = true;
+          for (const task of parsedTasks) {
+            if (
+              typeof task !== 'object' ||
+              typeof task.id !== 'string' ||
+              typeof task.title !== 'string' ||
+              typeof task.description !== 'string' ||
+              (task.dueDate !== null && typeof task.dueDate !== 'string') || // Allow null dueDate, check for string
+              typeof task.completed !== 'boolean' ||
+              (task.priority !== 'High' && task.priority !== 'Medium' && task.priority !== 'Low')
+            ) {
+              valid = false;
+              break;
+            }
+          }
+          if (valid) {
+            // Convert dueDate strings back to Date objects.
+            const loadedTasks = parsedTasks.map((task: Task) => ({
+              ...task,
+              dueDate: task.dueDate ? new Date(task.dueDate) : null,
+            }));
+            setTasks(loadedTasks);
+          } else {
+            console.error('Invalid data structure in localStorage');
+            localStorage.removeItem('tasks');
+            setTasks([]);
+          }
+        } else {
+          console.error('Data loaded from localStorage is not an array.');
+          localStorage.removeItem('tasks');
+          setTasks([]);
+        }
+      } catch (error) {
+        console.error('Error parsing tasks from localStorage:', error);
+        localStorage.removeItem('tasks'); // Clear corrupted data
+        setTasks([]);
+      }
+    }
+  }, []);
 
+  // Save tasks to localStorage
+  useEffect(() => {
+    if (tasks.length > 0 || localStorage.getItem('tasks')) { // only save if there are tasks
+      // Convert Date objects to strings before saving
+      const tasksToSave = tasks.map(task => ({
+        ...task,
+        dueDate: task.dueDate ? task.dueDate.toISOString() : null, //convert date to string
+      }));
+      localStorage.setItem('tasks', JSON.stringify(tasksToSave));
+    } else {
+      localStorage.removeItem('tasks');
+    }
+  }, [tasks]);
+
+  // Update derived state whenever tasks change
   useEffect(() => {
     const highCompleted = tasks.filter(task => task.completed && task.priority === 'High').length;
     const mediumCompleted = tasks.filter(task => task.completed && task.priority === 'Medium').length;
@@ -59,7 +121,6 @@ const TaskManager = () => {
     });
   }, [tasks]);
 
-
   const addTask = () => {
     if (!newTaskTitle.trim()) return;
 
@@ -71,13 +132,14 @@ const TaskManager = () => {
       completed: false,
       priority: newPriority,
     };
-    
+
     setTasks([...tasks, newTask]);
     setIsAddingTask(false);
     setNewTaskTitle('');
     setNewTaskDescription('');
     setNewDueDate(null);
     setNewPriority('Medium');
+    setEditingTaskId(null); // Clear editing ID
   };
 
   const updateTask = (id: string, updates: Partial<Omit<Task, 'id'>>) => {
@@ -86,6 +148,7 @@ const TaskManager = () => {
 
   const deleteTask = (id: string) => {
     setTasks(tasks.filter((task) => task.id !== id));
+    setEditingTaskId(null); // Clear editing ID if the current editing task is deleted
   };
 
   const toggleComplete = (id: string) => {
@@ -100,25 +163,28 @@ const TaskManager = () => {
     setEditingTaskId(id);
     const taskToEdit = tasks.find(task => task.id === id);
     if (taskToEdit) {
-        setNewTaskTitle(taskToEdit.title);
-        setNewTaskDescription(taskToEdit.description);
-        setNewDueDate(taskToEdit.dueDate);
-        setNewPriority(taskToEdit.priority);
+      setNewTaskTitle(taskToEdit.title);
+      setNewTaskDescription(taskToEdit.description);
+      setNewDueDate(taskToEdit.dueDate);
+      setNewPriority(taskToEdit.priority);
+      setIsAddingTask(true); // Ensure form is visible
     }
   };
 
   const saveChanges = (id: string) => {
-      updateTask(id, {
-        title: newTaskTitle,
-        description: newTaskDescription,
-        dueDate: newDueDate,
-        priority: newPriority
-      });
-      setEditingTaskId(null);
-      setNewTaskTitle('');
-      setNewTaskDescription('');
-      setNewDueDate(null);
-      setNewPriority('Medium');
+    if (!newTaskTitle.trim()) return;
+    updateTask(id, {
+      title: newTaskTitle,
+      description: newTaskDescription,
+      dueDate: newDueDate,
+      priority: newPriority,
+    });
+    setEditingTaskId(null);
+    setIsAddingTask(false); // Hide form after saving
+    setNewTaskTitle('');
+    setNewTaskDescription('');
+    setNewDueDate(null);
+    setNewPriority('Medium');
   };
 
   const getPriorityColor = (priority: 'High' | 'Medium' | 'Low') => {
@@ -257,7 +323,7 @@ const TaskManager = () => {
                     selected={newDueDate}
                     onSelect={setNewDueDate}
                     className="rounded-md text-gray-900"
-                    style={{ backgroundColor: '#fff' }}
+                    style={{ backgroundColor: '#fff' }} // Fix calendar style issue.
                   />
                 </PopoverContent>
               </Popover>
@@ -386,3 +452,4 @@ const TaskManager = () => {
 };
 
 export default TaskManager;
+

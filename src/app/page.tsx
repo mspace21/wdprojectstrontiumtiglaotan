@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import Link from 'next/link';
 
 import TodoList from '@/components/todo-list'
 // import the todo list component from /components
@@ -30,8 +31,8 @@ export default function HomePage() {
           <div className="space-y-4">
             <div className="font-bold text-xl border-b pb-2">Navigation</div>
             <div className="text-blue-600 font-semibold">Home</div>
-            <div><a href="/fitness">Fitness</a></div>
-            <div><a href="/work">Work</a></div>
+            <div><Link href="/fitness">Fitness</Link></div>
+            <div><Link href="/work">Work</Link></div>
           </div>
         </nav>
       )}
@@ -40,10 +41,10 @@ export default function HomePage() {
       <main className="pt-20 px-6 md:px-16">
         <header className="mb-10">
           <h1 className="text-3xl font-bold cursor-pointer" onClick={changeName}>
-            <span className="text-blue-700">{userName}</span>'s Space
+            <span className="text-blue-700">{userName}</span>&apos;s Space
           </h1>
           <p className="text-sm text-gray-600 mt-2">
-            "Don't judge each day by the harvest you reap but by the seeds you plant."
+            &quot;Don&apos;t judge each day by the harvest you reap but by the seeds you plant.&quot;
           </p>
         </header>
 

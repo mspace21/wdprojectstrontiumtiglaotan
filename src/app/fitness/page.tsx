@@ -3,11 +3,11 @@
 import CalorieTracker from "@/components/calorie-tracker"
 import WorkoutDashboard from "@/components/workout-dashboard"
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import Link from "next/link";
 
 export default function HomePage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [userName, setUserName] = useState('User');
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
@@ -25,9 +25,9 @@ export default function HomePage() {
         <nav className="fixed top-0 left-0 w-64 h-full bg-white shadow-lg z-40 p-6">
           <div className="space-y-4">
             <div className="font-bold text-xl border-b pb-2">Navigation</div>
-            <div><a href="/">Home</a></div>
+            <div><Link href="/">Home</Link></div>
             <div className="text-blue-600 font-semibold">Fitness</div>
-            <div><a href="/work">Work</a></div>
+            <div><Link href="/work">Work</Link></div>
           </div>
         </nav>
       )}

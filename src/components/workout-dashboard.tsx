@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-
 import {
   Select,
   SelectContent,
@@ -9,9 +8,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
-import { Expand, PlusCircle, Trash2, GripVertical, CheckCircle, Edit, Save } from 'lucide-react';
+import { PlusCircle, Trash2, CheckCircle, Edit, Save, Expand } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Exercise {
@@ -43,7 +41,7 @@ const exerciseList = [
   'Plank',
   'Running',
   'Swimming',
-  'Cycling'
+  'Cycling',
 ];
 
 const WorkoutDashboard = () => {
@@ -54,27 +52,68 @@ const WorkoutDashboard = () => {
   const [sets, setSets] = useState<number | string>('');
   const [reps, setReps] = useState<number | string>('');
   const [editingPlanId, setEditingPlanId] = useState<string | null>(null);
-  const [isEditMode, setIsEditMode] = useState<boolean>(false);
+  const [, setIsEditMode] = useState<boolean>(false);
 
   // Load from localStorage
   useEffect(() => {
     const savedPlans = localStorage.getItem('workoutPlans');
     if (savedPlans) {
       try {
-        setWorkoutPlans(JSON.parse(savedPlans));
+        const parsedPlans = JSON.parse(savedPlans);
+        // Validate the structure of the loaded data
+        if (Array.isArray(parsedPlans)) {
+          let valid = true;
+          for (const plan of parsedPlans) {
+            if (
+              typeof plan !== 'object' ||
+              typeof plan.id !== 'string' ||
+              typeof plan.name !== 'string' ||
+              !Array.isArray(plan.exercises)
+            ) {
+              valid = false;
+              break;
+            }
+            for (const exercise of plan.exercises) {
+              if (
+                typeof exercise !== 'object' ||
+                typeof exercise.name !== 'string' ||
+                typeof exercise.sets !== 'number' ||
+                typeof exercise.reps !== 'number' ||
+                typeof exercise.completed !== 'boolean'
+              ) {
+                valid = false;
+                break;
+              }
+            }
+            if (!valid) break;
+          }
+          if (valid) {
+            setWorkoutPlans(parsedPlans);
+          } else {
+            console.error('Invalid data structure in localStorage');
+            localStorage.removeItem('workoutPlans');
+            setWorkoutPlans([]);
+          }
+        } else {
+          console.error('Data loaded from localStorage is not an array.');
+          localStorage.removeItem('workoutPlans');
+          setWorkoutPlans([]);
+        }
       } catch (error) {
         console.error('Error parsing saved workout plans:', error);
-        // clear corrupted/wrong data if error occursn
         localStorage.removeItem('workoutPlans');
-        setWorkoutPlans([]); // Initialize to an empty array
+        setWorkoutPlans([]);
       }
     }
   }, []);
 
   // Save to localStorage
   useEffect(() => {
-    if (workoutPlans.length > 0 || localStorage.getItem('workoutPlans')) {
+    if (workoutPlans.length > 0) {
+      // Only save if there are plans
       localStorage.setItem('workoutPlans', JSON.stringify(workoutPlans));
+    } else if (localStorage.getItem('workoutPlans')) {
+      localStorage.removeItem('workoutPlans'); //remove from localstorage if there are no workout plans
     }
   }, [workoutPlans]);
 
@@ -82,7 +121,7 @@ const WorkoutDashboard = () => {
     if (!newPlanName.trim()) return;
 
     const newPlan: WorkoutPlan = {
-      id: crypto.randomUUID(),
+      id: String(Date.now()), // Use Date.now() for unique id
       name: newPlanName,
       exercises: [],
     };
@@ -92,7 +131,11 @@ const WorkoutDashboard = () => {
   };
 
   const deleteWorkoutPlan = (id: string) => {
-    setWorkoutPlans(workoutPlans.filter((plan) => plan.id !== id));
+    setWorkoutPlans((prevPlans) => {
+      const updatedPlans = prevPlans.filter((plan) => plan.id !== id);
+      return updatedPlans;
+    });
+
     if (editingPlanId === id) {
       setEditingPlanId(null);
       setIsEditMode(false);
@@ -103,7 +146,7 @@ const WorkoutDashboard = () => {
     const setsNum = Number(sets);
     const repsNum = Number(reps);
 
-    if (!selectedExercise || !setsNum || !repsNum) return;
+    if (!selectedExercise || isNaN(setsNum) || isNaN(repsNum)) return;
 
     const newExercise: Exercise = {
       name: selectedExercise,
@@ -112,8 +155,8 @@ const WorkoutDashboard = () => {
       completed: false,
     };
 
-    setWorkoutPlans(
-      workoutPlans.map((plan) =>
+    setWorkoutPlans((prevPlans) =>
+      prevPlans.map((plan) =>
         plan.id === planId
           ? { ...plan, exercises: [...plan.exercises, newExercise] }
           : plan
@@ -125,21 +168,21 @@ const WorkoutDashboard = () => {
   };
 
   const deleteExerciseFromPlan = (planId: string, exerciseIndex: number) => {
-    setWorkoutPlans(
-      workoutPlans.map((plan) =>
+    setWorkoutPlans((prevPlans) =>
+      prevPlans.map((plan) =>
         plan.id === planId
           ? {
-            ...plan,
-            exercises: plan.exercises.filter((_, index) => index !== exerciseIndex),
-          }
+              ...plan,
+              exercises: plan.exercises.filter((_, index) => index !== exerciseIndex),
+            }
           : plan
       )
     );
   };
 
-    const toggleExerciseComplete = (planId: string, exerciseIndex: number) => {
-    setWorkoutPlans(
-      workoutPlans.map((plan) =>
+  const toggleExerciseComplete = (planId: string, exerciseIndex: number) => {
+    setWorkoutPlans((prevPlans) =>
+      prevPlans.map((plan) =>
         plan.id === planId
           ? {
               ...plan,
@@ -165,48 +208,27 @@ const WorkoutDashboard = () => {
 
   const saveChanges = (planId: string) => {
     if (!newPlanName.trim()) return;
-      setWorkoutPlans(
-        workoutPlans.map((plan) =>
-          plan.id === planId
-            ? {
-                ...plan,
-                name: newPlanName,
-              }
-            : plan
-        )
-      );
-      setEditingPlanId(null);
-      setIsEditMode(false);
-      setNewPlanName('');
-  };
-
-  const handleDragEnd = (planId: string, newExercises: Exercise[]) => {
-    setWorkoutPlans(
-      workoutPlans.map((plan) =>
-        plan.id === planId ? { ...plan, exercises: newExercises } : plan
+    setWorkoutPlans((prevPlans) =>
+      prevPlans.map((plan) =>
+        plan.id === planId
+          ? {
+              ...plan,
+              name: newPlanName,
+            }
+          : plan
       )
     );
+    setEditingPlanId(null);
+    setIsEditMode(false);
+    setNewPlanName('');
   };
-
-    const handleSort = (planId: string, oldIndex: number, newIndex: number) => {
-        const currentPlan = workoutPlans.find((plan) => plan.id === planId);
-        if (!currentPlan) return;
-
-        const updatedExercises = [...currentPlan.exercises];
-        // Remove the item from its old position
-        const [movedItem] = updatedExercises.splice(oldIndex, 1);
-        // Insert the item into its new position
-        updatedExercises.splice(newIndex, 0, movedItem);
-
-        handleDragEnd(planId, updatedExercises);
-    };
 
   return (
     <div className="w-full md:w-6/10 h-auto bg-white rounded-md p-4 shadow-sm relative">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-800 mb-6">Workout Dashboard</h1>
         <a href="/fitness-2">
-            <Expand className="absolute right-2 top-2"/>
+          <Expand className="absolute right-2 top-2" />
         </a>
 
         {/* Add New Workout Plan Section */}
@@ -327,7 +349,7 @@ const WorkoutDashboard = () => {
                     <SelectTrigger className="w-full sm:w-[280px] bg-gray-50 text-gray-800">
                       <SelectValue placeholder="Select an exercise" />
                     </SelectTrigger>
-                    <SelectContent className='bg-gray-100 border-gray-700'>
+                    <SelectContent className="bg-gray-100 border-gray-700">
                       {exerciseList.map((exercise) => (
                         <SelectItem key={exercise} value={exercise} className="text-gray-800 hover:bg-gray-600">
                           {exercise}
@@ -418,3 +440,4 @@ const WorkoutDashboard = () => {
 };
 
 export default WorkoutDashboard;
+

@@ -64,7 +64,7 @@ const WorkoutDashboard = () => {
         setWorkoutPlans(JSON.parse(savedPlans));
       } catch (error) {
         console.error('Error parsing saved workout plans:', error);
-        // Handle the error, e.g., clear the corrupted data
+        // clear corrupted/wrong data if error occursn
         localStorage.removeItem('workoutPlans');
         setWorkoutPlans([]); // Initialize to an empty array
       }

@@ -24,7 +24,8 @@ export default function HomePage() {
       {sidebarOpen && (
         <nav className="fixed top-0 left-0 w-64 h-full bg-white shadow-lg z-40 p-6">
           <div className="space-y-4">
-            <div className="font-bold text-xl border-b pb-2">Navigation</div>
+            <br></br>
+            <div className="font-bold text-xl border-b pb-2 hover:bg-gray-100 hover:cursor-pointer"><Link href="/login">Merge</Link></div>
             <div><Link href="/">Home</Link></div>
             <div className="text-blue-600 font-semibold">Fitness</div>
             <div><Link href="/work">Work</Link></div>
